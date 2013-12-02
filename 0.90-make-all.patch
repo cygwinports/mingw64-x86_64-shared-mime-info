@@ -1,0 +1,17 @@
+--- origsrc/shared-mime-info-0.90/Makefile.am	2010-12-01 09:57:28.000000000 -0600
++++ src/shared-mime-info-0.90/Makefile.am	2011-04-29 02:46:25.736841300 -0500
+@@ -67,12 +67,12 @@ uninstall-hook:
+ 	rm -f "$(DESTDIR)$(datadir)/mime/treemagic"
+ 	rm -f "$(DESTDIR)$(datadir)/mime/types"
+ 
+-all: check create-pot
++all: verify create-pot
+ 
+ create-pot:
+ 	$(MAKE) -C po shared-mime-info.pot
+ 
+-check: freedesktop.org.xml update-mime-database check-translations
++verify: freedesktop.org.xml update-mime-database check-translations
+ 	if test -n $(XMLLINT) ; then \
+ 		if test -e $(top_builddir)/freedesktop.org.xml; then \
+ 		xmllint --noout --valid $(top_builddir)/freedesktop.org.xml;	\

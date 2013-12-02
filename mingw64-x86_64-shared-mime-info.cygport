@@ -1,0 +1,33 @@
+CROSS_HOST="x86_64-w64-mingw32"
+inherit cross gnome2
+
+NAME="mingw64-x86_64-shared-mime-info"
+VERSION=1.2
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Shared MIME info database for Win64 toolchain"
+DESCRIPTION="This package contains the core database of common types and the
+update-mime-database command used to extend it."
+HOMEPAGE="http://freedesktop.org/wiki/Software/shared-mime-info"
+SRC_URI="http://freedesktop.org/~hadess/shared-mime-info-${VERSION}.tar.xz"
+SRC_DIR="shared-mime-info-${VERSION}"
+# for chemical-mime-data
+PATCH_URI="0.90-category-chemical.patch"
+
+MAKEOPTS+=" -j1"
+
+src_compile() {
+	cd ${S}
+	cygautoreconf
+	cd ${B}
+	manifestize ${B}/update-mime-database.exe
+	cygconf
+	cygmake
+}
+
+src_install() {
+	cd ${B}
+	cyginstall bin_PROGRAMS= man_MANS=
+
+	find ${D}${CROSS_DATADIR}/mime/ -maxdepth 1 -type f -delete
+}
